@@ -1,8 +1,8 @@
 server:
-  port: 8080
+  port: ${PORT:8080}
 
 salesforce:
-  client-id: YOUR_CLIENT_ID
-  client-secret: YOUR_CLIENT_SECRET
-  redirect-uri: http://localhost:8080/oauth/callback
+  client-id: ${SF_CLIENT_ID}
+  client-secret: ${SF_CLIENT_SECRET}
+  redirect-uri: ${SF_REDIRECT_URI}
   login-url: https://login.salesforce.com
