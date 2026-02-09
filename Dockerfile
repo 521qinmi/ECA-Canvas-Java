@@ -1,12 +1,15 @@
-# 1. 使用官方 Java 运行镜像
-FROM openjdk:17-jdk-alpine
+# ---------- 构建 ----------
+FROM maven:3.9.9-eclipse-temurin-17 AS builder
+WORKDIR /app
+COPY pom.xml .
+RUN mvn -B -q -e -DskipTests dependency:go-offline
+COPY src ./src
+RUN mvn clean package -DskipTests
 
-# 2. 把 Jar 复制到容器里
-ARG JAR_FILE=target/demo-0.0.1-SNAPSHOT.jar
-COPY ${JAR_FILE} app.jar
+# ---------- 运行 ----------
+FROM eclipse-temurin:17-jdk-jammy
+WORKDIR /app
+COPY --from=builder /app/target/sfdc-demo-1.0.0.jar app.jar
 
-# 3. 暴露端口
 EXPOSE 8080
-
-# 4. 启动命令
-ENTRYPOINT ["java","-jar","/app.jar"]
+ENTRYPOINT ["java","-jar","/app/app.jar"]
