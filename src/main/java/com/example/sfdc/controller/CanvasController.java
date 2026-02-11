@@ -27,4 +27,8 @@ public class CanvasController {
 
         return "<h2>Canvas 已成功连接到你的 Java 服务器 🎉</h2>";
     }
+    @GetMapping("/sf/canvas")
+    public String testGet() {
+        return "GET reach ok";
+    }
 }
